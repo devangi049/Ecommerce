@@ -1,0 +1,33 @@
+{% extends 'navigation.html' %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+{% for product in products %}
+<div class="col-lg-4 col-md-6">
+    <div class="product__item">
+        <div class="product__item__pic set-bg" data-setbg="{{ product.image1.url }}">
+            <ul class="product__hover">
+                <li><a href="{{ product.image1.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                <li><a href="{% url 'add_to_wishlist' product.id %}"><span class="icon_heart_alt"></span></a></li>
+                <li>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button class="btn-add-to-cart"><span class="icon_bag_alt"></span></button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="product__item__text">
+            <h6>{{ product.name }}</h6>
+            <div class="product__price">₹{{ product.discount }}</div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% include 'footer.html' %}
+{% endblock %}

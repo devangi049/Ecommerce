@@ -1,0 +1,71 @@
+{% extends 'navigation.html' %}
+{% load static % }
+{% block content %}
+
+<div class="container mt-4">
+    <div class="p-4 m-4">
+        
+        <div class="col-lg-5 rounded mx-auto border pt-4 signupForm pb-4">
+
+            <div class=" text-center">
+                <div class="display-8" style="font-family: arial">
+                    <b>User Profile</b>
+                </div>
+                <hr>
+            </div>
+
+            <h3 hidden class="alert alert-light border rounded">User Profile</h3>
+          
+            <form action="/user-profile" method="POST" enctype="multipart/form-data">
+
+              {% csrf_token %}
+
+
+              {% if success%}
+              <div class="alert alert-danger" role="alert">
+                  {{success}}
+              </div>
+              {% endif %}
+                <!-- Profile Image Preview with Click Event -->
+                <div class="form-group text-center">
+                    <img id="profileImagePreview" src={{request.session.user_profileImg}} alt="Profile Image" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd; cursor: pointer;" onclick="document.getElementById('profileImage').click();">
+                </div>
+
+                <!-- Hidden Image Upload Field -->
+                <div class="form-group">
+                    <input type="file" class="form-control" id="profileImage" accept="image/*" style="display: none;" onchange="previewImage(event)" name="profileImg">
+                </div>
+
+                <!-- Other Form Fields -->
+                <div class="form-group">
+                    <label for="fname">First Name :</label>
+                    <input type="text" class="form-control" id="fname" name="fname" value="{{ request.session.user_fname}}">
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name :</label>
+                    <input type="text" class="form-control"  id="lname" name="lname" value="{{ request.session.user_lname}}">
+                   
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone :</label>
+                    <input type="text" class="form-control"  id="phone" name="phone" value="{{ request.session.user_phone}}">
+                   
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email">Email :</label>
+                    <input type="email" class="form-control"  id="email" aria-describedby="emailHelp" name="email" value="{{ request.session.user_email}}">
+                   
+                  </div>
+                 
+
+
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form> 
+        </div>
+    </div>
+  
+</div>
+
+
+{% endblock %}
