@@ -1,8 +1,5 @@
 {% extends 'navigation.html' %}
-
-
 {% load static %}
-
 
 {% block content %}
 <!-- Breadcrumb Begin -->
@@ -37,139 +34,105 @@
                                         All Products
                                       </a>
                                 </div>
-                                
                                 {% for category in categories %}
-
                                 <div class="card">
                                     <div class="" style="cursor: pointer;">
-                                        
-                                        <a href="{% url 'product' %}?category={{ category.id }}" class="list-group list-group-flush " style="color: black;">
+                                        <a href="{% url 'product' %}?category={{ category.id }}&min_price={{ min_price }}&max_price={{ max_price }}" class="list-group list-group-flush " style="color: black;">
                                             {{ category.name }}
                                           </a>
-                                        <!-- <a href="{% url 'product' %}?category={{ category.id }}" style="text-decoration: none; color: black;"> {{ category.name }}</a> -->
                                     </div>
-
                                 </div>
-
-
                                 {% endfor %}
-
                             </div>
                         </div>
                     </div>
                     <div class="sidebar__filter">
                         <div class="section-title">
-                            <h4>Shop by price</h4>
+                            <h4>Shop by Price</h4>
                         </div>
                         <div class="filter-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="33" data-max="99"></div>
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <p>Price:</p>
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
-                                </div>
+                            <!-- Single Range Price Slider -->
+                            <div class="" id="price-range"></div>
+
+                            <div class="price-input" style="margin-top: 20px;">
+                                <p>Price:</p>
+                                ₹<input type="text" id="minamount" name="min_price" value="{{ min_price }}" readonly>
+                                <span>to</span>
+                                ₹<input type="text" id="maxamount" name="max_price" value="{{ max_price }}" readonly>
                             </div>
+                            
                         </div>
-                        <a href="#">Filter</a>
-                    </div>
-                    <div class="sidebar__sizes">
-                        <div class="section-title">
-                            <h4>Shop by size</h4>
-                        </div>
-                        <div class="size__list">
-                            <label for="xxs">
-                                xxs
-                                <input type="checkbox" id="xxs">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="xs">
-                                xs
-                                <input type="checkbox" id="xs">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="xss">
-                                xs-s
-                                <input type="checkbox" id="xss">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="s">
-                                s
-                                <input type="checkbox" id="s">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="m">
-                                m
-                                <input type="checkbox" id="m">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="ml">
-                                m-l
-                                <input type="checkbox" id="ml">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="l">
-                                l
-                                <input type="checkbox" id="l">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="xl">
-                                xl
-                                <input type="checkbox" id="xl">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="sidebar__color">
-                        <div class="section-title">
-                            <h4>Shop by size</h4>
-                        </div>
-                        <div class="size__list color__list">
-                            <label for="black">
-                                Blacks
-                                <input type="checkbox" id="black">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="whites">
-                                Whites
-                                <input type="checkbox" id="whites">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="reds">
-                                Reds
-                                <input type="checkbox" id="reds">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="greys">
-                                Greys
-                                <input type="checkbox" id="greys">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="blues">
-                                Blues
-                                <input type="checkbox" id="blues">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="beige">
-                                Beige Tones
-                                <input type="checkbox" id="beige">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="greens">
-                                Greens
-                                <input type="checkbox" id="greens">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="yellows">
-                                Yellows
-                                <input type="checkbox" id="yellows">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
+                        <!-- Submit Filter Button -->
+                        <button href="#" class="filterbtn" id="filter-price">Filter</button>
                     </div>
                 </div>
             </div>
+<style>
+    .price-input input {
+    width: auto;
+    min-width: 70px; /* Set a minimum width */
+}
+
+.filterbtn{
+    border: 2px solid #ff0000;
+    color: #0d0d0d;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+    font-weight: 700;
+    padding: 5px 16px 5px 24px;
+    font-size: 14px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+.filterbtn:hover{
+    background-color: #ff0000;
+    color: white;
+
+}
+</style>
+<style>
+    .price-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .price-input p {
+        font-weight: bold;
+        margin-right: 10px;
+        margin-top: 15px;
+    }
+
+    .price-input input {
+        width: auto;
+        min-width: 70px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .filterbtn {
+        border: 2px solid #ff0000;
+        color: #0d0d0d;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+        padding: 5px 16px 5px 24px;
+        font-size: 14px;
+        background-color: transparent;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .filterbtn:hover {
+        background-color: #ff0000;
+        color: white;
+    }
+</style>
+
             <div class="col-lg-9 col-md-9">
                 <div class="row">
                     {% for product in products %}
@@ -178,31 +141,19 @@
 
                             <div onclick="window.location.href='{% url 'product_detail' product.id %}'"
                                 style="cursor: pointer; text-decoration: underline;">
-                            <!-- <div
-                                style="cursor: pointer; text-decoration: underline;"> -->
-
-
-                                <div class="product__item__pic set-bg" data-setbg="{{product.image1.url}}">
-                                    <ul class="product__hover">
-                                        <li><a href="{{ product.image1.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a href="{% url 'add_to_wishlist' product.id %}"><span class="icon_heart_alt "></span></a></li>
-                                        <li>
-                                            <form method="post" action="{% url 'add_to_cart' product.id %}">
-                                                {% csrf_token %}
-
-                                                <li><button  style="border: none; background-color: transparent;"><a><span class="icon_bag_alt "></span></a></button></li>
-                                            </form>
-
-
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="product__item__pic set-bg" data-setbg="{{product.image1.url}}">
+                                <ul class="product__hover">
+                                    <li><a href="{{ product.image1.url }}" class="image-popup" style="color: black;"><span class="arrow_expand"></span></a></li>
+                                    <li><a href="{% url 'add_to_wishlist' product.id %}" style="color: black;"><span class="icon_heart_alt "></span></a></li>
+                                    <li>
+                                        <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                            {% csrf_token %}
+                                            <button  style="border: none; background-color: transparent;"><span class="icon_bag_alt "></span></button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
-
-
-
-
-
+                            </div>
                             <div class="product__item__text">
                                 <h6 id="product-title-{{product.id}}"><a href="#">{{product.name}}</a></h6>
                                 <div class="rating">
@@ -214,13 +165,9 @@
                                 </div>
                                 <strike class="text-danger original-price"> ₹{{product.price}} </strike>
                                 <div class="product__price">₹{{product.discount}}</div>
-                                <!-- <sup class="badge badge-warning discount-percentage" id="discount-percentage-{{product.id}}"> 
-                                         Discount percentage will be calculated dynamically
-                                      </sup> -->
                             </div>
                         </div>
                     </div>
-                    </a>
                     {% endfor %}
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">
@@ -236,6 +183,41 @@
     </div>
 </section>
 
+<!-- Filter Functionality Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var minAmountInput = document.getElementById("minamount");
+        var maxAmountInput = document.getElementById("maxamount");
+        var filterPriceButton = document.getElementById("filter-price");
+
+        // Initialize the noUiSlider library
+        var priceRange = document.getElementById('price-range');
+        noUiSlider.create(priceRange, {
+            start: [{{ min_price|default:100 }}, {{ max_price|default:10000 }}],
+            connect: true,
+            range: {
+                'min': 100,
+                'max': 10000
+            },
+            step: 1
+        });
+
+        // Sync the range values with input fields
+        priceRange.noUiSlider.on('update', function(values) {
+            minAmountInput.value = values[0];
+            maxAmountInput.value = values[1];
+        });
+
+        // Handle the filter button click event
+        filterPriceButton.addEventListener('click', function() {
+            var minPriceValue = minAmountInput.value;
+            var maxPriceValue = maxAmountInput.value;
+
+            var url = "{% url 'product' %}?category={{ category_id }}&min_price=" + minPriceValue + "&max_price=" + maxPriceValue;
+            window.location.href = url;
+        });
+    });
+</script>
 
 {% include 'footer.html' %}
 {% endblock %}

@@ -29,8 +29,12 @@ urlpatterns = [
     path("user-profile", UserProfile.as_view(), name="userprofile"),
     path("products", product, name="product"),  
     path("product/<int:product_id>/", product_detail, name="product_detail"), 
-    path("cart/add/<int:product_id>/", add_to_cart, name="add_to_cart"),  
-    path("cart/add/<int:product_id>/", add_to_cart_wishlist, name="add_to_cart_wishlist"),  
+# Add to cart from general product view
+path("cart/add/<int:product_id>/", add_to_cart, name="add_to_cart"),
+
+# Add to cart from wishlist
+path("wishlist/cart/add/<int:product_id>/", add_to_cart_wishlist, name="add_to_cart_wishlist"),
+
     path("cart/remove/<int:product_id>/", Remove_From_Cart, name="remove_from_cart"),  
     path("cart/increment/<int:product_id>/", increment_quantity, name="cart_increment"),  
     path("cart/decrement/<int:product_id>/", decrement_quantity, name="cart_decrement"),

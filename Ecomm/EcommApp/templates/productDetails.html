@@ -201,7 +201,7 @@
                 {% for related_product in related_products %}
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ related_product.image1.url }}"    onclick="window.location.href='{% url 'product_detail' related_product.id %}'">
+                        <div class="product__item__pic set-bg" data-setbg="{{ related_product.image1.url }}"    onclick="window.location.href='{% url 'product_detail' related_product.id %}'" style="cursor: pointer;">
                            <!-- <img src={{related_product.image1.url}} alt=""> -->
                             <!-- Add a label dynamically if needed -->
                             {% if related_product.is_new %}
@@ -211,9 +211,15 @@
                             <div class="label stockout">Out of Stock</div>
                             {% endif %}
                             <ul class="product__hover">
-                                <li><a href="{{ related_product.image1.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="{{ product.image1.url }}" class="image-popup" style="color: black;"><span class="arrow_expand"></span></a></li>
+                                        <li><a href="{% url 'add_to_wishlist' product.id %}" style="color: black;"><span class="icon_heart_alt "></span></a></li>
+                                        <li>
+                                            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                                {% csrf_token %}
+
+                                                <li><button  style="border: none; background-color: transparent;"><a><span class="icon_bag_alt "></span></a></button></li>
+                                            </form>
+                                        </li>
                             </ul>
                         </div> 
                      

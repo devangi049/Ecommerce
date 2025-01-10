@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from EcommApp.models.wishlist import WishlistItem
 from EcommApp.models.cart import Cart,CartItem
 from EcommApp.models.product import Product
+from EcommApp.views.cart_utils import get_or_create_cart
+from EcommApp.models.user import User
 
 
 def Wishlist(request):
@@ -64,51 +66,45 @@ def wishlist(request):
     }
     return render(request, 'wishlist.html', context)
 
-
 def clear_wishlist(request):
-    if not request.session.get('user_id'):
-        messages.error(request, "Please log in to clear your wishlist.")
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to log in to perform this action.")
         return redirect('login')
 
-    wishlist = get_or_create_wishlist(request.session['user_email'])
-
-    if wishlist:
-        wishlist.items.all().delete()  
-        messages.success(request, "Your wishlist has been cleared.")
-    else:
-        messages.error(request, "Wishlist not found.")
-
-    return redirect('wishlist') 
+    WishlistItem.objects.filter(user=request.user).delete()
+    messages.success(request, "Your wishlist has been cleared.")
+    return redirect('wishlist')
 
 def add_to_cart_wishlist(request, product_id):
-    if not request.session.get('user_id'):
-        messages.error(request, "Please log in to add items to your cart.")
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to log in to perform this action.")
         return redirect('login')
 
+    # Get the user email from the session
+    user_email = request.session.get('user_email')
+    if not user_email:
+        messages.error(request, "User email is missing. Please log in again.")
+        return redirect('login')
+
+    # Get or create the cart for the user
+    user = User.objects.get(email=user_email)
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    # Get the product
     product = get_object_or_404(Product, id=product_id)
-    user_email = request.session['user_email']
 
-    # Get or create the user's cart
-    cart, created = Cart.objects.get_or_create(user_email=user_email)
-
-    # Check if the item is already in the cart
-    cart_item, cart_item_created = CartItem.objects.get_or_create(cart=cart, product=product)
-    if cart_item_created:
-        cart_item.quantity = 1  # Set default quantity for new cart item
+    # Add the product to the cart
+    cart_item, cart_created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not cart_created:
+        cart_item.quantity += 1  # Increment quantity if the product already exists
         cart_item.save()
-        messages.success(request, f"{product.name} has been added to your cart.")
-    else:
-        cart_item.quantity += 1  # Increment quantity if the item already exists in the cart
-        cart_item.save()
-        messages.info(request, f"Quantity for {product.name} has been updated in your cart.")
 
-    # Remove the item from the wishlist
+    # Remove the product from the wishlist
     wishlist = get_or_create_wishlist(user_email)
     wishlist_item = WishlistItem.objects.filter(wishlist=wishlist, product=product).first()
-    print("not fremove wishlsit item")
     if wishlist_item:
-        print("remove wishlsit")
         wishlist_item.delete()
-        messages.info(request, f"{product.name} has been removed from your wishlist.")
 
-    return redirect('cart')
+    messages.success(request, f"{product.name} was added to your cart and removed from the wishlist.")
+    return redirect('wishlist')

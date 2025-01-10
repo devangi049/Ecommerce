@@ -1453,7 +1453,7 @@ ol {
 
 .filter-range-wrap .range-slider .price-input:after {
 	position: absolute;
-	left: 81px;
+	left: 800px;
 	top: 12px;
 	height: 1px;
 	width: 5px;
@@ -1565,7 +1565,7 @@ ol {
 	-ms-transform: rotate(127deg);
 	transform: rotate(127deg);
 	opacity: 0;
-	content: "";
+	/* content: ""; */
 }
 
 .sidebar__color .color__list label {
@@ -1937,7 +1937,7 @@ ol {
 	width: 20px;
 	background: #e31e2f;
 	border-radius: 50%;
-	content: "";
+	/* content: ""; */
 }
 
 .product__details__widget ul li .color__checkbox label .checkmark.black-bg {
@@ -2422,7 +2422,7 @@ ol {
 	-ms-transform: rotate(127deg);
 	transform: rotate(127deg);
 	opacity: 0;
-	content: "";
+	/* content: ""; */
 }
 
 .checkout__form .checkout__form__checkbox p {
@@ -2613,7 +2613,7 @@ ol {
 	position: absolute;
 	right: -17px;
 	top: 0px;
-	content: "|";
+	/* content: "|"; */
 }
 
 .blog__item__text ul li:last-child {
@@ -3381,7 +3381,7 @@ ol {
 		position: absolute;
 		right: -8px;
 		top: -2px;
-		content: "/";
+		/* content: "/"; */
 		font-size: 13px;
 	}
 	.header__menu {
