@@ -19,7 +19,7 @@ from .views.wishlist_count import Wishlist_Count
 from .views.checkout_page import Chckout_Page,Checkout_View
 from .views.blog import blog_view
 from EcommApp.views.blogdetails import blog_details_view
-
+from EcommApp.views.about import About_us
 urlpatterns = [
     path("",Index.as_view(),name='home'),
     path("signup",Signup.as_view(),name='signup'),
@@ -53,5 +53,6 @@ path("wishlist/cart/add/<int:product_id>/", add_to_cart_wishlist, name="add_to_c
     path("checkout/process", Checkout_View, name="checkout_view"), 
     path('blog/', blog_view, name='blog'),
     path('blog/<int:id>/', blog_details_view, name='blog_details'),
+    path('about-us/', About_us, name='about_us'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
