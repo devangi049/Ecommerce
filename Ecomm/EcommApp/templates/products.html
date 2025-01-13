@@ -163,8 +163,14 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
+                                {% if product.discount > 0 %}
                                 <strike class="text-danger original-price"> ₹{{product.price}} </strike>
+
                                 <div class="product__price">₹{{product.discount}}</div>
+                                
+                                {% else %}
+                                <div class="original-price product__price">₹{{product.price}}</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
