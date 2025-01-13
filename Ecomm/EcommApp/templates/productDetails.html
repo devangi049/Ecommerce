@@ -69,7 +69,13 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
+                        
+                        {% if product.discount > 0 %}
                         <div class="product__details__price">₹{{ product.discount }} <span>₹{{ product.price }}</span></div>
+                                
+                                {% else %}
+                                <div class="product__details__price">₹{{ product.price }}</div>
+                        {% endif %}
                         <p>{{ product.description }}</p>
                         <div class="product__details__button">
                             <div class="quantity">
@@ -154,8 +160,14 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <strike class="text-danger original-price"> ₹{{related_product.price}} </strike>
-                            <div class="product__price">₹{{related_product.discount}}</div>
+                           {% if related_product.discount > 0 %}
+                                <strike class="text-danger original-price"> ₹{{related_product.price}} </strike>
+
+                                <div class="product__price">₹{{related_product.discount}}</div>
+                                
+                                {% else %}
+                                <div class="original-price product__price">₹{{related_product.price}}</div>
+                                {% endif %}
                            
                         </div>
                     </div>
