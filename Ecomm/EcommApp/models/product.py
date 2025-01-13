@@ -13,7 +13,8 @@ class Product(models.Model):
     image3=models.ImageField(upload_to="uploads/products",  blank=True, null=True)
     image4=models.ImageField(upload_to="uploads/products",  blank=True, null=True)
     image5=models.ImageField(upload_to="uploads/products",  blank=True, null=True)
-    
+    is_new = models.BooleanField(default=False)  
+    is_in_stock = models.BooleanField(default=True)  
     
     @staticmethod
     

@@ -65,6 +65,17 @@
                         <!-- Submit Filter Button -->
                         <button href="#" class="filterbtn" id="filter-price">Filter</button>
                     </div>
+                    <form method="get">
+                        <label>
+                           
+                            <input type="checkbox" name="is_new" value="true" {% if is_new == "true" %}checked{% endif %}>
+                            <span class="checkmark"></span>New Products
+                        </label>
+                        <label>
+                            <input  name="is_in_stock" value="true" {% if is_in_stock == "true" %}checked{% endif %} class="checkmark"> In Stock
+                        </label>
+                        <button type="submit" class="filterbtn">Filter</button>
+                    </form>
                 </div>
             </div>
 <style>
@@ -142,15 +153,31 @@
                             <div onclick="window.location.href='{% url 'product_detail' product.id %}'"
                                 style="cursor: pointer; text-decoration: underline;">
                             <div class="product__item__pic set-bg" data-setbg="{{product.image1.url}}">
+                            
+                                
+                                    {% if product.is_new %}
+                                        <div class="label new">New</div>
+                                    {% endif %}
+                                    {% if not product.is_in_stock %}
+                                    <div class="label stockout stockblue">Out of Stock</div>
+                                    {% endif %}
+                                
+                                
                                 <ul class="product__hover">
                                     <li><a href="{{ product.image1.url }}" class="image-popup" style="color: black;"><span class="arrow_expand"></span></a></li>
+                                    
                                     <li><a href="{% url 'add_to_wishlist' product.id %}" style="color: black;"><span class="icon_heart_alt "></span></a></li>
-                                    <li>
+                                    {% if product.is_in_stock %}
+                                    <li>        
                                         <form method="post" action="{% url 'add_to_cart' product.id %}">
                                             {% csrf_token %}
                                             <button  style="border: none; background-color: transparent;"><span class="icon_bag_alt "></span></button>
                                         </form>
+                                       
                                     </li>
+                                    
+
+                                    {% endif %}
                                 </ul>
                             </div>
                             </div>
