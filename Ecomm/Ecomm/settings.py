@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-uf!tllcg&d$-v!pk709y+y$-0sw)rqgxafe#=r%zw#@8ljo%@w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['Ecomm.vercel.app']
-
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,10 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True  
 ROOT_URLCONF = 'Ecomm.urls'
 
 TEMPLATES = [
@@ -131,7 +127,7 @@ MEDIA_ROOT = BASE_DIR
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

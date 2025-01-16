@@ -43,3 +43,7 @@ def product(request):
         'is_in_stock': is_in_stock,
     }
     return render(request, 'products.html', data)
+
+def get_filtered_products():
+    # Filter products with is_new=True
+    return Product.objects.filter(is_new=True)

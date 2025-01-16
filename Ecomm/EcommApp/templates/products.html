@@ -67,12 +67,10 @@
                     </div>
                     <form method="get">
                         <label>
-                           
-                            <input type="checkbox" name="is_new" value="true" {% if is_new == "true" %}checked{% endif %}>
-                            <span class="checkmark"></span>New Products
+                            <input type="checkbox" name="is_new" value="true" {% if is_new == "true" %}checked{% endif %}class="checkmark"> New Products
                         </label>
                         <label>
-                            <input  name="is_in_stock" value="true" {% if is_in_stock == "true" %}checked{% endif %} class="checkmark"> In Stock
+                            <input type="checkbox" name="is_in_stock" value="true" {% if is_in_stock == "true" %}checked{% endif %} class="checkmark"> In Stock
                         </label>
                         <button type="submit" class="filterbtn">Filter</button>
                     </form>
