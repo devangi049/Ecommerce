@@ -23,6 +23,7 @@ from EcommApp.views.about import About_us
 from EcommApp.views.contact import Contact
 urlpatterns = [
     path("",Index.as_view(),name='home'),
+    path('category/<int:category_id>/', Index.as_view(), name='category'),
     path("signup",Signup.as_view(),name='signup'),
     path("login",Login.as_view(),name='login'),
     path("logout",logout,name='logout'),
