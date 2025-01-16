@@ -33,7 +33,7 @@ def product(request):
         all_products = all_products.filter(is_new=True)
     if is_in_stock == "true":
         all_products = all_products.filter(is_in_stock=True)
-
+    
     data = {
         'products': all_products,
         'categories': categories,
@@ -43,3 +43,5 @@ def product(request):
         'is_in_stock': is_in_stock,
     }
     return render(request, 'products.html', data)
+
+

@@ -18,26 +18,31 @@ def Cart(request):
     total_price = sum(item.product.discount * item.quantity for item in cart_items)
     return render(request,"cart.html",{"cart_items":cart_items},{"total_price":total_price})
 
-def add_to_cart(request,product_id):
+def add_to_cart(request, product_id):
     if not request.session.get('user_id'):
-        messages.error(request,"Please log in to add items to the cart.")
+        messages.error(request, "Please log in to add items to the cart.")
         return redirect('login')
-    
-    product = get_object_or_404(Product,id=product_id)
-    cart=get_or_create_cart(request.session.get('user_email'))
 
-    cart_item=CartItem.objects.filter(cart=cart,product=product).first()
+    product = get_object_or_404(Product, id=product_id)
+    cart = get_or_create_cart(request.session.get('user_email'))
+
+    # Get the quantity from the POST request
+    quantity = int(request.POST.get('quantity', 1))
+
+    # Check if the product already exists in the cart
+    cart_item = CartItem.objects.filter(cart=cart, product=product).first()
 
     if cart_item:
-        messages.error(request, f"{product.name} is already in your cart.")
-    else:
-        cart_item=CartItem(cart=cart,product=product,quantity=1)
+        # Update the existing item's quantity
+        cart_item.quantity += quantity
         cart_item.save()
-        messages.success(request, f"{product.name} has been added to your cart.")
+        messages.success(request, f"Updated {product.name} quantity to {cart_item.quantity}.")
+    else:
+        # Create a new cart item with the specified quantity
+        cart_item = CartItem(cart=cart, product=product, quantity=quantity)
+        cart_item.save()
+        messages.success(request, f"Added {quantity} of {product.name} to your cart.")
 
-
-    if 'from_product_detail' in request.GET:
-        return redirect('product_detail',product_id=product.id)
     return redirect('product')
 
 def cart_view(request):
