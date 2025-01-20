@@ -43,7 +43,15 @@ def add_to_cart(request, product_id):
         cart_item.save()
         messages.success(request, f"Added {quantity} of {product.name} to your cart.")
 
-    return redirect('product')
+
+    if 'from_product_detail' in request.GET:
+        return redirect('product_detail', product_id=product.id)  
+    if 'form_homepage' in request.GET:
+        return redirect('home')  
+    return redirect('product')  
+    
+
+    # return redirect('product')
 
 def cart_view(request):
     if not request.session.get('user_id'):

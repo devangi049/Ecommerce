@@ -3,13 +3,39 @@
 {% load static %}
 {% block content %}
 
+
+
+
+{% if messages %}
+{% for message in messages %}
+  <script>
+    console.log("Django message:", "{{ message|escapejs }}"); // Debug log for messages
+    Toastify({
+      text: "{{ message|escapejs }}",
+      duration: 5000,
+      close: true,
+      gravity: "top",
+      position: "right",
+
+      backgroundColor: "{% if message.tags == 'success' %}#4CAF50{% elif message.tags == 'error' %}#F44336{% else %}#FFC107{% endif %}",
+      stopOnFocus: true,
+    
+      style: {
+        width: "350px", 
+        marginTop: "45px"
+      }
+    }).showToast();
+ 
+  </script>
+{% endfor %}
+{% endif %}
 <!-- Categories Section Begin -->
 <section class="categories">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 p-0">
                 <div class="categories__item categories__large__item set-bg"
-                    data-setbg="{% static 'new/img/categories/category-1.jpg' %}">
+                    data-setbg="{% static 'new/img/categories/category-1.1.jpg' %}">
                     <div class="categories__text">
                         <h1>Women’s fashion</h1>
                         <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
@@ -108,7 +134,7 @@
                                             class="icon_heart_alt "></span></a></li>
                                 {% if product.is_in_stock %}
                                 <li>
-                                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                    <form method="post" action="{% url 'add_to_cart' product.id %}?form_homepage=true">
                                         {% csrf_token %}
                                         <button style="border: none; background-color: transparent;"><span
                                                 class="icon_bag_alt "></span></button>
