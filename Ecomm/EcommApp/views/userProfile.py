@@ -1,35 +1,36 @@
-from django.shortcuts import render,redirect,HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib import messages
 from EcommApp.models.user import User
 
 class UserProfile(View):
-    def get(self,request):
-        return render(request,'userprofile.html')
+    def get(self, request):
+        return render(request, 'userprofile.html')
     
-    def post(self,request):
-        postData=request.POST
-        fname=request.POST.get("fname")
-        lname=request.POST.get("lname")
-        phone=request.POST.get("phone")
-        email=request.POST.get("email")
+    def post(self, request):
+        postData = request.POST
+        fname = request.POST.get("fname")
+        lname = request.POST.get("lname")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
         profileImg = request.FILES.get("profileImg")
 
-        value={
-            "fname":fname,
-            "lname":lname,
-            "phone":phone,
-            "email":email,
-            "profileImg":profileImg
+        value = {
+            "fname": fname,
+            "lname": lname,
+            "phone": phone,
+            "email": email,
+            "profileImg": profileImg
         }
         
         print(value)
 
-        user=User.get_customer_by_email(email)
-        error_message=None
+        user = User.get_customer_by_email(email)
+        error_message = None
         
         if user:
-            print("User:",user)
-            request.session['user']=user.id
+            print("User:", user)
+            request.session['user'] = user.id
             
             print(request.FILES)
 
@@ -50,12 +51,8 @@ class UserProfile(View):
             if profileImg:
                 request.session['user_profileImg'] = user.profileImg.url
             
-
-            return render(request,'userprofile.html',{'error':'Your Profile Updated Successfully.'})
-        
+            # Use the messages framework for feedback
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect('home')  # Ensure 'home' is a valid named URL in your URLs configuration
         
         return render(request, 'userprofile.html', {'error': error_message})
-
-
-
-

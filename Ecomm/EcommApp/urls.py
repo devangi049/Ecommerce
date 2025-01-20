@@ -21,6 +21,8 @@ from .views.blog import blog_view
 from EcommApp.views.blogdetails import blog_details_view
 from EcommApp.views.about import About_us
 from EcommApp.views.contact import Contact
+# from EcommApp.views.paginator import product_list
+
 urlpatterns = [
     path("",Index.as_view(),name='home'),
     path('category/<int:category_id>/', Index.as_view(), name='category'),
@@ -57,5 +59,6 @@ path("wishlist/cart/add/<int:product_id>/", add_to_cart_wishlist, name="add_to_c
     path('blog/<int:id>/', blog_details_view, name='blog_details'),
     path('about-us/', About_us, name='about_us'),
     path('contact/',Contact, name='contact'),
+    # path('products/', product_list, name='product'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

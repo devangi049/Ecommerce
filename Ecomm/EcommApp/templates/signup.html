@@ -51,11 +51,11 @@
 {% endfor %}
 {% endif %}
             
-            <div class="form-holder">
+            <div class="form-holder" style="margin-top: 35px;">
                 <div class="form-content">
                     <div class="form-items">
                         <h3>Register new account</h3>
-                        <p>Access to the most powerfull tool in the entire design and web industry.</p>
+                        <!-- <p>Access to the most powerfull tool in the entire design and web industry.</p> -->
                         <form action="/signup" method="POST" enctype="multipart/form-data">
                           {% csrf_token %}
                           <input type="file" class="form-control" id="profileImage" accept="image/*" onchange="previewImage(event)" name="profileImg">            

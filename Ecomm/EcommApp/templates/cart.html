@@ -73,7 +73,12 @@
                                         <h6>{{ item.product.name }}</h6>
                                     </div>
                                 </td>
+                            
+                                {% if product.discount > 0 %}
                                 <td class="cart__price">₹ {{ item.product.discount }}</td>
+                                {% else %}
+                                <td class="cart__price">₹ {{ item.product.price }}</td>
+                                {% endif %}
                                 <td class="cart__quantity">
                                     <div class="quantity-wrapper" style="margin-left: -80px;">
                                         <a href="{% url 'cart_decrement' item.product.id %}" class="quantity-btn decrement" >-</a>

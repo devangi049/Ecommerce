@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from EcommApp.models.category import Category
+from django.core.paginator import Paginator
 from EcommApp.models.product import Product
 
 def product(request):
@@ -9,7 +10,12 @@ def product(request):
     max_price = request.GET.get('max_price')
     is_new = request.GET.get('is_new')  # Filter for new products
     is_in_stock = request.GET.get('is_in_stock')  # Filter for in-stock products
+    # products = Product.objects.all()
 
+
+    # paginator = Paginator(products, 9)  # Show 9 products per page
+    # page_number = request.GET.get('page')  # Get the current page number from the query parameters
+    # page_obj = paginator.get_page(page_number) 
     # Filter products by category
     if category_id:
         all_products = Product.get_all_products_by_categories_id(category_id)
@@ -17,6 +23,9 @@ def product(request):
         all_products = Product.get_all_products()
 
     # Apply price filter if min_price or max_price is provided
+
+
+    
     try:
         if min_price:
             min_price = float(min_price)
@@ -33,7 +42,9 @@ def product(request):
         all_products = all_products.filter(is_new=True)
     if is_in_stock == "true":
         all_products = all_products.filter(is_in_stock=True)
-    
+    paginator = Paginator(all_products, 9)  # Show 9 products per page
+    page_number = request.GET.get('page')  # Get the current page number from the query parameters
+    page_obj = paginator.get_page(page_number) 
     data = {
         'products': all_products,
         'categories': categories,
@@ -41,6 +52,7 @@ def product(request):
         'max_price': max_price,
         'is_new': is_new,
         'is_in_stock': is_in_stock,
+        'page_obj': page_obj
     }
     return render(request, 'products.html', data)
 
