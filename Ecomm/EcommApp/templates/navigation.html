@@ -233,8 +233,22 @@ body {
 <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+        <form method="GET" action="{% url 'product' %}" class="search-model-form">
+            <div class="search-bar">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Search products by title..." 
+                    value="{{ search_query|default:'' }}" />
+              
+            </div>
+        
+            <!-- Keep existing filters persistent -->
+            <input type="hidden" name="category" value="{{ selected_category|default:'' }}">
+            <input type="hidden" name="min_price" value="{{ min_price|default:'' }}">
+            <input type="hidden" name="max_price" value="{{ max_price|default:'' }}">
+            <input type="hidden" name="is_new" value="{{ is_new|default:'' }}">
+            <input type="hidden" name="is_in_stock" value="{{ is_in_stock|default:'' }}">
         </form>
     </div>
 </div>
