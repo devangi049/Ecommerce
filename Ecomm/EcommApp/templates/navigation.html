@@ -91,7 +91,7 @@ body {
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <ul class="offcanvas__widget">
-           
+            <!-- <li><span class="icon_search search-switch"></span></li> -->
             {% if request.session.user_id %}
             <li id="wishlist-item">
                 <a href="{% url 'wishlist' %}">
@@ -191,7 +191,7 @@ body {
                             <a href="#">Register</a>
                         </div> -->
                         <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
+                            <!-- <li><span class="icon_search search-switch"></span></li> -->
                             {% if request.session.user_id %}
                             <li id="wishlist-item">
                                 <a href="{% url 'wishlist' %}">
@@ -230,9 +230,10 @@ body {
     </header> 
     {% block content %}{% endblock %}
     <!-- Search Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch">+</div>
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+          
         <form method="GET" action="{% url 'product' %}" class="search-model-form">
             <div class="search-bar">
                 <input 
@@ -250,8 +251,9 @@ body {
             <input type="hidden" name="is_new" value="{{ is_new|default:'' }}">
             <input type="hidden" name="is_in_stock" value="{{ is_in_stock|default:'' }}">
         </form>
+        
+        </div>
     </div>
-</div>
 <!-- Search End -->
 <!-- Js Plugins -->
 <script src="{% static 'new/js/jquery-3.3.1.min.js' %}"></script>
