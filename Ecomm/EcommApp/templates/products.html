@@ -54,22 +54,28 @@
                         <div class="categories__accordion">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
-                                    <a href="{% url 'product' %}" class="list-group list-group-flush"
-                                        style="color: black;">
+                                    <a href="{% url 'product' %}?min_price={{ min_price }}&max_price={{ max_price }}&is_new={{ is_new }}&is_in_stock={{ is_in_stock }}"
+                                       class="list-group list-group-flush {% if category_id is none %}active{% endif %}"
+                                       style="color: black;">
                                         All Products
                                     </a>
                                 </div>
-                                {% for category in categories %}
-                                <div class="card">
-                                    <div class="" style="cursor: pointer;">
-                                        <a href="{% url 'product' %}?category={{ category.id }}&min_price={{ min_price }}&max_price={{ max_price }}"
-                                            class="list-group list-group-flush " style="color: black;">
-                                            {{ category.name }}
-                                        </a>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                                
+                            <!-- Categories List -->
+{% for category in categories %}
+<div class="card">
+    <div class="" style="cursor: pointer;">
+        <a href="{% url 'product' %}?category={{ category.id }}&min_price={{ min_price }}&max_price={{ max_price }}&is_new={{ is_new }}&is_in_stock={{ is_in_stock }}"
+           class="list-group list-group-flush {% if category.id == selected_category %}active{% endif %}"
+           style="color: black;">
+            {{ category.name }}
+        </a>
+    </div>
+</div>
+{% endfor %}
+
                             </div>
+                            
                         </div>
                     </div>
                     <div class="sidebar__filter">
@@ -93,8 +99,10 @@
                     </div>
                     <form method="get">
                         <label>
-                            <input type="checkbox" name="is_new" value="true" {% if is_new == "true" %}checked{% endif %}class="checkmark"> New Products
+                            <input type="checkbox" name="is_new" value="true" {% if is_new == "true" %}checked{% endif %} class="checkmark"> New Products
                         </label>
+                        
+                        <!-- In Stock Filter -->
                         <label>
                             <input type="checkbox" name="is_in_stock" value="true" {% if is_in_stock == "true" %}checked{% endif %} class="checkmark"> In Stock
                         </label>
@@ -234,16 +242,25 @@
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">
                             {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"></i></a>
+                                <a href="?page={{ page_obj.previous_page_number }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&is_new={{ is_new }}&is_in_stock={{ is_in_stock }}">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
                             {% endif %}
+                            
                             {% for num in page_obj.paginator.page_range %}
-                            <a href="?page={{ num }}" class="{% if page_obj.number == num %}active{% endif %}">{{ num }}</a>
+                                <a href="?page={{ num }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&is_new={{ is_new }}&is_in_stock={{ is_in_stock }}"
+                                    class="{% if page_obj.number == num %}active{% endif %}">{{ num }}</a>
                             {% endfor %}
+                            
                             {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a>
+                                <a href="?page={{ page_obj.next_page_number }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&is_new={{ is_new }}&is_in_stock={{ is_in_stock }}">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
                             {% endif %}
                         </div>
                     </div>
+                    
+                    
                     
                 </div>
             </div>
@@ -265,8 +282,7 @@
         var maxAmountInput = document.getElementById("maxamount");
         var filterPriceButton = document.getElementById("filter-price");
 
-    
-            // Initialize the noUiSlider library
+        // Initialize the noUiSlider library
         var priceRange = document.getElementById('price-range');
         noUiSlider.create(priceRange, {
             start: [{{ min_price|default:100 }}, {{ max_price|default:10000 }}],
@@ -278,20 +294,24 @@
             step: 1
         });
 
-    // Sync the range values with input fields
-    priceRange.noUiSlider.on('update', function (values) {
-        minAmountInput.value = values[0];
-        maxAmountInput.value = values[1];
-    });
+        // Sync the range values with input fields
+        priceRange.noUiSlider.on('update', function (values) {
+            minAmountInput.value = values[0];
+            maxAmountInput.value = values[1];
+        });
 
-    // Handle the filter button click event
-    filterPriceButton.addEventListener('click', function () {
-        var minPriceValue = minAmountInput.value;
-        var maxPriceValue = maxAmountInput.value;
+        // Handle the filter button click event
+        filterPriceButton.addEventListener('click', function () {
+            var minPriceValue = minAmountInput.value;
+            var maxPriceValue = maxAmountInput.value;
 
-        var url = "{% url 'product' %}?category={{ category_id }}&min_price=" + minPriceValue + "&max_price=" + maxPriceValue;
-        window.location.href = url;
-    });
+            // Get the selected category from the URL
+            var selectedCategory = "{{ selected_category }}";
+            
+            // Construct the URL with the updated price filter and selected category
+            var url = "{% url 'product' %}?category=" + selectedCategory + "&min_price=" + minPriceValue + "&max_price=" + maxPriceValue;
+            window.location.href = url;
+        });
     });
 </script>
 

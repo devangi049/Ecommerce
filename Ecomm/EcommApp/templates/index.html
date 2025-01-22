@@ -29,29 +29,6 @@
   </script>
 {% endfor %}
 {% endif %}
-<style>
-    .categories__large__item {
-    background-size: cover; /* Ensures the image covers the entire container */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9; /* Maintains a consistent aspect ratio */
-}
-
-@media (max-width: 768px) {
-    .categories__large__item {
-        aspect-ratio: 4 / 3; /* Adjusts aspect ratio for smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .categories__large__item {
-        aspect-ratio: 1 / 1; /* Square aspect ratio for very small screens */
-    }
-}
-
-</style>
 <!-- Categories Section Begin -->
 <section class="categories">
     <div class="container-fluid">
@@ -63,7 +40,7 @@
                         <h1>Women’s fashion</h1>
                         <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
                             edolore magna aliquapendisse ultrices gravida.</p>
-                        <a href="{% url 'product' %}">Shop now</a>
+                        <a href="{% url 'product' %}?category=1">Shop now</a>
                     </div>
                 </div>
             </div>
@@ -75,7 +52,7 @@
                             <div class="categories__text">
                                 <h4>Men’s fashion</h4>
                                 <p>358 items</p>
-                                <a href="{% url 'product' %}">Shop now</a>
+                                <a href="{% url 'product' %}?category=2">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -105,7 +82,7 @@
                             <div class="categories__text">
                                 <h4>Accessories</h4>
                                 <p>792 items</p>
-                                <a href="{% url 'product' %}">Shop now</a>
+                                <a href="{% url 'product' %}?category=3">Shop now</a>
                             </div>
                         </div>
                     </div>
