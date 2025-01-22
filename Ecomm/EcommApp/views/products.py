@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q, F
 from EcommApp.models.category import Category
 from django.core.paginator import Paginator
 from EcommApp.models.product import Product
@@ -20,14 +21,18 @@ def product(request):
         except ValueError:
             pass  # Ignore invalid category ID
 
-    # Step 2: Apply price filter if both min_price and max_price are provided
+    # Step 2: Apply price filter using discounted price if available
     try:
         if min_price:
             min_price = float(min_price)
-            all_products = all_products.filter(discount__gte=min_price)
+            all_products = all_products.filter(
+                Q(discount__gte=min_price) | (Q(discount=0) & Q(price__gte=min_price))
+            )
         if max_price:
             max_price = float(max_price)
-            all_products = all_products.filter(discount__lte=max_price)
+            all_products = all_products.filter(
+                Q(discount__lte=max_price) | (Q(discount=0) & Q(price__lte=max_price))
+            )
     except ValueError:
         min_price = None
         max_price = None
